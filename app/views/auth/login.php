@@ -1,31 +1,89 @@
+<?php
+// Verificar se o formulário foi enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Receber e limpar os dados do formulário
+    $modelo = htmlspecialchars($_POST['modelo']);
+    $placa = htmlspecialchars($_POST['placa']);
+    
+    // Validar se os campos foram preenchidos
+    if (empty($modelo) || empty($placa)) {
+        $erro = "Por favor, preencha todos os campos.";
+    } else {
+        // Se não houver erro, pode-se realizar algum processamento, como salvar em banco de dados ou log
+        $sucesso = "Veículo $modelo com placa $placa registrado para entrada no estacionamento!";
+    }
+}
+?>
+
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrada no Estacionamento</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .erro {
+            color: red;
+            font-size: 14px;
+        }
+        .sucesso {
+            color: green;
+            font-size: 14px;
+        }
+    </style>
 </head>
+<body>
 
-<body class="bg-white-900 flex items-center justify-center min-h-screen">
-  <div class="bg-gray-200 p-8 rounded-lg shadow-md w-full max-w-sm">
-    <h2 class="text-2xl font-semibold text-center text-gray-700 mb-6">Login</h2>
-    <form action="/login" method="POST">
-      <div class="mb-4">
-        <label for="username" class="block text-sm font-medium text-gray-700">Usuário</label>
-        <input type="text" id="username" name="username" required
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-      </div>
-      <div class="mb-6">
-        <label for="password" class="block text-sm font-medium text-gray-700">Senha</label>
-        <input type="password" id="password" name="password" required
-          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-      </div>
-      <input type="submit" value="Entrar"
-        class="w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+<div class="container">
+    <h2>Entrada no Estacionamento</h2>
+    
+    <!-- Exibir mensagens de erro ou sucesso -->
+    <?php if (isset($erro)): ?>
+        <p class="erro"><?php echo $erro; ?></p>
+    <?php elseif (isset($sucesso)): ?>
+        <p class="sucesso"><?php echo $sucesso; ?></p>
+    <?php endif; ?>
+
+    <!-- Formulário -->
+    <form method="post" action="">
+        <label for="modelo">Modelo do veículo:</label>
+        <input type="text" id="modelo" name="modelo" placeholder="Digite o modelo do veículo" value="<?php echo isset($modelo) ? $modelo : ''; ?>" required>
+        
+        <label for="placa">Placa do veículo:</label>
+        <input type="text" id="placa" name="placa" placeholder="Digite a placa do veículo" value="<?php echo isset($placa) ? $placa : ''; ?>" required>
+        
+        <input type="submit" value="Registrar Entrada">
     </form>
-  </div>
-</body>
+</div>
 
+</body>
 </html>
